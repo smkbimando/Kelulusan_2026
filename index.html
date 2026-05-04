@@ -331,7 +331,7 @@ window.onload = function() {
 }
 
 
-function (){
+function kembali(){
     document.getElementById("hasilPage").style.display = "none";
     document.getElementById("loginPage").style.display = "block";
 
@@ -349,16 +349,16 @@ function (){
     }
 
     if (audioPlayer) {
-    	audioPlayer.pause();
-    	audioPlayer.currentTime = 0;
+        audioPlayer.pause();
+        audioPlayer.currentTime = 0;
     }
 
     const canvas = document.getElementById("fireworks");
     if (canvas) {
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-     };
+    }
+}
 }
 
 let hasil = null;

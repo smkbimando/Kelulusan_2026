@@ -163,18 +163,24 @@ button {
 
 @media (max-width: 600px) {
 
-    .box {
-        flex-direction: column;
+    .status-wrapper {
+        display: flex;
         align-items: center;
-    }
-
-    .data, .foto {
-        width: 100%;
-        text-align: center;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: nowrap;
     }
 
     .status {
-        font-size: 24px;
+        font-size: 22px;
+        margin: 0;
+    }
+
+    .foto-status {
+        width: 70px;
+        height: 90px;
+        object-fit: cover;
+        border: 1px solid #000;
     }
 }
 
@@ -294,7 +300,10 @@ button {
 
     </div>
 
-    <div class="status" id="status"></div>
+    <div class="status-wrapper">
+    	<img id="fotoStatus" class="foto-status">
+    	<div class="status" id="status"></div>
+	</div>
     
 </div>
 
@@ -489,7 +498,7 @@ function tampilkan(){
     document.getElementById("nisnHasil").innerText = hasil.nisn;
     document.getElementById("prog").innerText = hasil.prog || "-";
     document.getElementById("komp").innerText = hasil.komp || "-";
-    document.getElementById("foto").src = hasil.foto;
+    document.getElementById("fotostatus").src = hasil.foto;
 
     const st = document.getElementById("status");
 

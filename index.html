@@ -243,6 +243,41 @@ button {
 .merah {
     color: red;
 }
+@media (max-width: 600px) {
+
+    /* sembunyikan foto status kosong di halaman hasil saja */
+    #hasilPage .foto-status {
+        display: none;
+    }
+
+    /* rapikan status */
+    #hasilPage .status-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #hasilPage .status {
+        font-size: 20px;
+        text-align: center;
+        line-height: 1.4;
+        margin-top: 10px;
+    }
+
+    /* tombol kembali pindah ke bawah (khusus halaman hasil) */
+    #hasilPage .btn-kembali {
+        position: static;
+        display: block;
+        width: 90%;
+        margin: 25px auto 0;
+        border-radius: 14px;
+    }
+
+    #hasilPage.container {
+        padding-bottom: 30px;
+    }
+}
 </style>
 </head>
 

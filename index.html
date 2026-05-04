@@ -135,14 +135,13 @@ button {
 .box {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
-    align-items: flex-start;
-    flex-wrap: wrap;
+    margin-top: 20px;
+    border: 1px solid #000;
+    padding: 15px;
 }
 
 .data {
-    flex: 2;
-    min-width: 260px;
+    width: 65%;
 }
 
 .data td {
@@ -150,15 +149,15 @@ button {
 }
 
 .foto {
-    flex: 1;
-    min-width: 150px;
+    width: 30%;
     text-align: center;
 }
 
 .foto img {
-    width: 100%;
-    max-width: 130px;
-    height: auto;
+    width: 120px;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #000;
 }
 
 /* STATUS */
@@ -204,41 +203,6 @@ button {
 .merah {
     color: red;
 }
-@media (max-width: 600px) {
-
-    /* sembunyikan foto status kosong di halaman hasil saja */
-    #hasilPage .foto-status {
-        display: none;
-    }
-
-    /* rapikan status */
-    #hasilPage .status-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-    }
-
-    #hasilPage .status {
-        font-size: 20px;
-        text-align: center;
-        line-height: 1.4;
-        margin-top: 10px;
-    }
-
-    /* tombol kembali pindah ke bawah (khusus halaman hasil) */
-    #hasilPage .btn-kembali {
-        position: static;
-        display: block;
-        width: 90%;
-        margin: 25px auto 0;
-        border-radius: 14px;
-    }
-
-    #hasilPage.container {
-        padding-bottom: 30px;
-    }
-}
 </style>
 </head>
 
@@ -258,7 +222,7 @@ button {
     <input type="text" id="nisn" placeholder="NISN">
     <input type="date" id="ttl">
 
-    <button type="button" onclick="cek()">Cek Kelulusan</button>
+    <button onclick="cek()">Cek Kelulusan</button>
     <p id="info"></p>
 </div>
 
@@ -271,7 +235,7 @@ button {
 <!-- HASIL -->
 <canvas id="fireworks"></canvas>
 <div class="container" id="hasilPage">
-<button type="button" class="btn-kembali" onclick="kembali()">🔙 Kembali</button>
+<button class="btn-kembali" onclick="kembali()">🔙 Kembali</button>
 
     <!-- KOP -->
     <div class="kop">
@@ -312,10 +276,7 @@ button {
 
     </div>
 
-    <div class="status-wrapper">
-    	<img id="fotoStatus" class="foto-status">
-    	<div class="status" id="status"></div>
-	</div>
+    <div class="status" id="status"></div>
     
 </div>
 
@@ -349,20 +310,20 @@ function kembali(){
     }
 
     if (audioPlayer) {
-        audioPlayer.pause();
-        audioPlayer.currentTime = 0;
+    	audioPlayer.pause();
+    	audioPlayer.currentTime = 0;
     }
 
     const canvas = document.getElementById("fireworks");
     if (canvas) {
         const ctx = canvas.getContext("2d");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-    }
+
+     };
 }
 
 let hasil = null;
 let fireworkAnim;
-let audioPlayer = null;
 
 function formatTanggal(dateString) {
     const bulan = [
@@ -511,11 +472,6 @@ function tampilkan(){
     document.getElementById("prog").innerText = hasil.prog || "-";
     document.getElementById("komp").innerText = hasil.komp || "-";
     document.getElementById("foto").src = hasil.foto;
-
-	document.getElementById("foto").onerror = function () {
-    console.log("Gagal load gambar:", hasil.foto);
-    this.src = "default.jpg";
-	};
 
     const st = document.getElementById("status");
 

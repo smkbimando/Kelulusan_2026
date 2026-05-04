@@ -135,13 +135,14 @@ button {
 .box {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
-    border: 1px solid #000;
-    padding: 15px;
+    gap: 20px;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
 .data {
-    width: 65%;
+    flex: 2;
+    min-width: 260px;
 }
 
 .data td {
@@ -149,15 +150,32 @@ button {
 }
 
 .foto {
-    width: 30%;
+    flex: 1;
+    min-width: 150px;
     text-align: center;
 }
 
 .foto img {
-    width: 120px;
-    height: 150px;
-    object-fit: cover;
-    border: 1px solid #000;
+    width: 100%;
+    max-width: 130px;
+    height: auto;
+}
+
+@media (max-width: 600px) {
+
+    .box {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .data, .foto {
+        width: 100%;
+        text-align: center;
+    }
+
+    .status {
+        font-size: 24px;
+    }
 }
 
 /* STATUS */

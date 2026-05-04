@@ -43,6 +43,20 @@
     z-index: 9999;
 }
 
+@media (max-width: 600px) {
+    .btn-kembali {
+        position: static;
+        display: block;
+        width: 90%;
+        margin: 25px auto 0;
+        border-radius: 14px;
+    }
+
+    .container {
+        padding-bottom: 30px;
+    }
+}
+	
 .btn-kembali:hover {
     background: #0056b3;
 }
@@ -165,19 +179,21 @@ button {
 
     .status-wrapper {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        justify-content: center;
-        gap: 15px;
-        flex-wrap: nowrap;
+        gap: 10px;
     }
 
     .status {
-        font-size: 22px;
-        margin: 0;
+        font-size: 20px;
+        text-align: center;
+        line-height: 1.4;
+        margin-top: 10px;
     }
 
     .foto-status {
-        width: 70px;
+        display: none;
+		width: 70px;
         height: 90px;
         object-fit: cover;
         border: 1px solid #000;
@@ -319,7 +335,7 @@ window.onload = function() {
 }
 
 
-function kembali(){
+function (){
     document.getElementById("hasilPage").style.display = "none";
     document.getElementById("loginPage").style.display = "block";
 

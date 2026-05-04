@@ -258,7 +258,7 @@ button {
     <input type="text" id="nisn" placeholder="NISN">
     <input type="date" id="ttl">
 
-    <button type="button" onclick="tesKlik()">Cek Kelulusan</button>
+    <button type="button" onclick="cek()">Cek Kelulusan</button>
     <p id="info"></p>
 </div>
 
@@ -359,7 +359,6 @@ function kembali(){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 }
-}
 
 let hasil = null;
 let fireworkAnim;
@@ -377,10 +376,6 @@ function formatTanggal(dateString) {
     const thn = d.getFullYear();
 
     return `${tgl} ${bln} ${thn}`;
-}
-
-	function tesKlik(){
-    alert("Tombol hidup");
 }
 
 function cek() {

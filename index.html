@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pengumuman Kelulusan</title>
+
+<style>
+.kop-login {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.kop-login img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.kop-login h3 {
+    margin: 5px 0;
+    font-size: 16px;
+}
+
+.kop-login p {
+    margin: 0;
+    font-size: 12px;
+    color: #555;
+}
+
+.btn-kembali {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 18px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 9999;
+}
+
+.btn-kembali:hover {
+    background: #0056b3;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    margin: 0;
+    padding: 20px;
+}
+
+/* FORM + LOADING */
+.card, .loading-page {
+    background: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width: 320px;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+    
+input {
+    width: 100%;
+    max-width: 280px;
+    padding: 10px;
+    margin: 8px auto;
+    border-radius: 8px;
+    display: block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    max-width: 280px;
+    padding: 10px;
+    margin: 8px auto;
+    border-radius: 8px;
+    display: block;
+    background: #4facfe;
+    color: white;
+    border: none;
+}
+
+/* HASIL */
+.container {
+    display: none;
+    background: white;
+    max-width: 800px;
+    margin: auto;
+    padding: 25px;
+    border: 2px solid #000;
+}
+
+/* KOP */
+.kop {
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid #000;
+    padding-bottom: 10px;
+}
+
+.kop img {
+    width: 70px;
+    margin-right: 15px;
+}
+
+.kop-text h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.kop-text p {
+    margin: 2px 0;
+    font-size: 12px;
+}
+
+/* JUDUL */
+.judul {
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* BOX DATA */
+.box {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    border: 1px solid #000;
+    padding: 15px;
+}
+
+.data {
+    width: 65%;
+}
+
+.data td {
+    padding: 5px;
+}
+
+.foto {
+    width: 30%;
+    text-align: center;
+}
+
+.foto img {
+    width: 120px;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #000;
+}
+
+/* STATUS */
+.status {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 32px; /* 🔥 lebih besar */
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.lulus {
+    color: green;
+    text-shadow: 0 0 10px rgba(0,255,0,0.6);
+}
+.tidak {
+    color: red;
+    opacity: 0.9;
+}
+
+#fireworks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* ANIMASI */
+#animText {
+    font-size: 28px;
+    font-weight: bold;
+    animation: fade 1s infinite;
+}
+
+/* warna dinamis */
+.hijau {
+    color: green;
+}
+
+.merah {
+    color: red;
+}
+</style>
+</head>
+
+<body>
+<div class="card" id="loginPage">
+
+    <!-- HEADER SEKOLAH -->
+    <div class="kop-login">
+        <img src="logo.png">
+        <h3>SMK BINA MANDIRI INDONESIA</h3>
+	<h3>SURAKARTA</h3>
+        <p>Jl. Bungur V/ 10 Punggawan, Banjarsari, Surakarta</p>
+    </div>
+
+    <h2>Pengumuman Kelulusan</h2>
+
+    <input type="text" id="nisn" placeholder="NISN">
+    <input type="date" id="ttl">
+
+    <button onclick="cek()">Cek Kelulusan</button>
+    <p id="info"></p>
+</div>
+
+<!-- LOADING -->
+<div class="loading-page" id="loadingPage" style="display:none;">
+    <h3>Memproses...</h3>
+    <p id="animText">LULUS</p>
+</div>
+
+<!-- HASIL -->
+<canvas id="fireworks"></canvas>
+<div class="container" id="hasilPage">
+<button class="btn-kembali" onclick="kembali()">🔙 Kembali</button>
+
+    <!-- KOP -->
+    <div class="kop">
+        <img src="logo.png">
+        <div class="kop-text">
+            <h2>SMK BINA MANDIRI INDONESIA SURAKARTA</h2>
+            <p>Jl. Bungur V/ 10 Punggawa, Banjarsari, Surakarta</p>
+        </div>
+    </div>
+
+    <!-- JUDUL -->
+    <div class="judul">
+        <h2>PENGUMUMAN KELULUSAN</h2>
+        <p>Tahun Ajaran 2025/2026</p>
+    </div>
+
+    <!-- BOX -->
+    <div class="box">
+
+        <div class="data">
+            <table>
+                <tr>
+  		    <td>Nama</td>
+  		    <td>: <b><span id="nama"></span></b></td>
+		</tr>
+		<tr><td>Tempat, Tgl Lahir</td><td>: <span id="ttlHasil"></span></td></tr>
+                <tr><td>NIS</td><td>: <span id="nis"></span></td></tr>
+                <tr><td>NISN</td><td>: <span id="nisnHasil"></span></td></tr>
+                <tr><td>Prog Keahlian</td><td>: <span id="prog"></span></td></tr>
+                <tr><td>Kons Keahlian</td><td>: <span id="komp"></span></td></tr>
+            </table>
+        </div>
+
+        <div class="foto">
+            <img id="foto" src="">
+            <p>Foto Siswa</p>
+        </div>
+
+    </div>
+
+    <div class="status" id="status"></div>
+    
+</div>
+
+<script>
+function resetForm() {
+    document.getElementById("nisn").value = "";
+    document.getElementById("ttl").value = "";
+    document.getElementById("info").innerText = "";
+}
+
+window.onload = function() {
+    resetForm();
+}
+
+
+function kembali(){
+    document.getElementById("hasilPage").style.display = "none";
+    document.getElementById("loginPage").style.display = "block";
+
+    // reset form
+    document.getElementById("nisn").value = "";
+    document.getElementById("ttl").value = "";
+    document.getElementById("info").innerText = "";
+
+    // reset status & foto (biar bersih)
+    document.getElementById("status").innerText = "";
+    document.getElementById("foto").src = "";
+
+    if (fireworkAnim) {
+        cancelAnimationFrame(fireworkAnim);
+    }
+
+    if (audioPlayer) {
+    	audioPlayer.pause();
+    	audioPlayer.currentTime = 0;
+    }
+
+    const canvas = document.getElementById("fireworks");
+    if (canvas) {
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+     };
+}
+
+let hasil = null;
+let fireworkAnim;
+
+function formatTanggal(dateString) {
+    const bulan = [
+        "Januari","Februari","Maret","April","Mei","Juni",
+        "Juli","Agustus","September","Oktober","November","Desember"
+    ];
+
+    const d = new Date(dateString);
+    const tgl = d.getDate();
+    const bln = bulan[d.getMonth()];
+    const thn = d.getFullYear();
+
+    return `${tgl} ${bln} ${thn}`;
+}
+
+function cek() {
+
+    const now = new Date();
+    const wib = new Date(now.toLocaleString("en-US",{timeZone:"Asia/Jakarta"}));
+    const jam = wib.getHours();
+
+    if(jam < 8){
+        document.getElementById("info").innerText =
+        "⏳ Dibuka setelah jam 08.00 WIB";
+        return;
+    }
+
+    const nisn = document.getElementById("nisn").value;
+    const ttl  = document.getElementById("ttl").value;
+
+    const data = [
+	{
+            nis:"999999",
+            nisn:"1234567890",
+            nama:"GATOTKACA",
+	    tmp_lahir:"Surakarta",
+            ttl:"2007-07-07",
+	    prog:"Akuntansi dan Keuangan Lembaga",
+	    komp:"Akuntansi",
+            status:"LULUS",
+            foto:"gatotkaca1.jpg"
+        },
+        {
+            nis:"233474",
+            nisn:"0077021710",
+            nama:"DANIEL KURNIA RAHIM NOFIANTO",
+	    tmp_lahir:"Karanganyar",
+            ttl:"2007-10-25",
+	    prog:"Akuntansi dan Keuangan Lembaga",
+	    komp:"Akuntansi",
+            status:"LULUS",
+            foto:"daniel.jpg"
+        },
+	{
+            nis:"233475",
+            nisn:"0076757000",
+            nama:"PEBRIYAN ENDRO WICAKSONO",
+	    tmp_lahir:"Surakarta",
+            ttl:"2007-02-18",
+	    prog:"Akuntansi dan Keuangan Lembaga",
+	    komp:"Akuntansi",
+            status:"LULUS",
+            foto:"pebrian.jpg"
+        },
+	{
+            nis:"223473",
+            nisn:"0074432525",
+            nama:"CHELSEA ASMAUL HUSNA",
+	    tmp_lahir:"Surakarta",
+            ttl:"2007-04-09",
+	    prog:"Manajemen Perkantoran dan Layanan Bisnis",
+	    komp:"Managemen Perkantoran",
+            status:"LULUS",
+            foto:"chelsea.jpg"
+        },
+	{
+            nis:"233476",
+            nisn:"0074842436",
+            nama:"GITA LESTARI",
+	    tmp_lahir:"Palu",
+            ttl:"2007-06-10",
+	    prog:"Manajemen Perkantoran dan Layanan Bisnis",
+	    komp:"Managemen Perkantoran",
+            status:"LULUS",
+            foto:"gita.jpg"
+        },
+        {
+            nis:"233477",
+            nisn:"0073877814",
+            nama:"RAHMAWATI ANGGRAINI",
+	    tmp_lahir:"Surakarta",
+            ttl:"2007-06-07",
+	    prog:"Manajemen Perkantoran dan Layanan Bisnis",
+	    komp:"Managemen Perkantoran",
+            status:"LULUS",
+            foto:"rahma.jpg"
+        }
+    ];
+
+    const siswa = data.find(s=>s.nisn===nisn && s.ttl===ttl);
+
+    if(!siswa){
+        document.getElementById("info").innerText = "❌ Data tidak ditemukan";
+        return;
+    }
+
+    hasil = siswa;
+
+    document.getElementById("loginPage").style.display="none";
+    document.getElementById("loadingPage").style.display="block";
+
+    let t = true;
+    const anim = document.getElementById("animText");
+let toggle = true;
+
+const interval = setInterval(() => {
+
+    if (toggle) {
+        anim.innerText = "LULUS";
+        anim.className = "hijau";
+    } else {
+        anim.innerText = "TIDAK LULUS";
+        anim.className = "merah";
+    }
+
+    toggle = !toggle;
+
+}, 500);
+
+    setTimeout(()=>{
+        clearInterval(interval);
+        tampilkan();
+    },8000);
+}
+
+function tampilkan(){
+
+    document.getElementById("loadingPage").style.display="none";
+    document.getElementById("hasilPage").style.display="block";
+
+    document.getElementById("nama").innerText = hasil.nama;
+    document.getElementById("ttlHasil").innerText =
+    hasil.tmp_lahir + ", " + formatTanggal(hasil.ttl);
+    document.getElementById("nis").innerText = hasil.nis;
+    document.getElementById("nisnHasil").innerText = hasil.nisn;
+    document.getElementById("prog").innerText = hasil.prog || "-";
+    document.getElementById("komp").innerText = hasil.komp || "-";
+    document.getElementById("foto").src = hasil.foto;
+
+    const st = document.getElementById("status");
+
+    if(hasil.status==="LULUS"){
+        st.innerText = "🎓 DINYATAKAN LULUS";
+        st.className="status lulus";
+	startFireworks(); //
+    	playSound();      //
+    	vibrate();        //
+
+    } else {
+        st.innerText = "❌ DINYATAKAN TIDAK LULUS";
+        st.className="status tidak";
+    }
+}
+
+
+
+function playSound() {
+    audioPlayer = new Audio("applause.mp3");
+    audioPlayer.loop = true; // opsional (biar terus)
+    audioPlayer.play();
+}
+
+function vibrate() {
+    if (navigator.vibrate) {
+        navigator.vibrate([200, 100, 200]);
+    }
+}
+
+function startFireworks() {
+    const canvas = document.getElementById("fireworks");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    function createParticle() {
+        return {
+            x: Math.random() * canvas.width,
+            y: canvas.height,
+            speedX: (Math.random() - 0.5) * 6,
+            speedY: Math.random() * -10 - 5,
+            color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+            size: Math.random() * 4 + 2
+        };
+    }
+
+    for (let i = 0; i < 100; i++) {
+        particles.push(createParticle());
+    }
+
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach((p, i) => {
+            p.x += p.speedX;
+            p.y += p.speedY;
+            p.speedY += 0.2;
+
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (p.y > canvas.height) {
+                particles[i] = createParticle();
+            }
+        });
+
+        fireworkAnim = requestAnimationFrame(animate);
+    }
+
+    animate();
+}
+
+</script>
+
+</body>
+</html>

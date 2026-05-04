@@ -498,7 +498,12 @@ function tampilkan(){
     document.getElementById("nisnHasil").innerText = hasil.nisn;
     document.getElementById("prog").innerText = hasil.prog || "-";
     document.getElementById("komp").innerText = hasil.komp || "-";
-    document.getElementById("fotostatus").src = hasil.foto;
+    document.getElementById("foto").src = hasil.foto;
+
+	document.getElementById("foto").onerror = function () {
+    console.log("Gagal load gambar:", hasil.foto);
+    this.src = "default.jpg";
+	};
 
     const st = document.getElementById("status");
 
